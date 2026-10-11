@@ -47,7 +47,7 @@ function SimClock() {
       {open && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
-          <div className="pop-in fixed inset-x-3 top-[6.5rem] z-40 rounded-2xl sm:absolute sm:inset-x-auto sm:top-auto sm:right-0 sm:mt-2 sm:w-80 border border-border bg-card p-4 shadow-xl">
+          <div className="pop-in fixed inset-x-3 top-[7rem] z-40 rounded-2xl sm:absolute sm:inset-x-auto sm:top-auto sm:right-0 sm:mt-2 sm:w-80 border border-border bg-card p-4 shadow-xl">
             <div className="text-xs font-semibold tracking-wide text-coop-ink uppercase">Demo time machine</div>
             <p className="mt-1 text-xs text-muted-foreground">
               Skip ahead to see yield build up and rounds pay out.
@@ -137,13 +137,18 @@ export function Layout({ path, children }: { path: string; children: ReactNode }
   }, [])
   const iconBtn = "relative flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card hover:bg-muted cursor-pointer"
   return (
-    <div className="min-h-screen pt-8">
+    <div className="min-h-screen pt-10">
       {/* Sits above everything, including the welcome pop-up, so it's always readable. */}
-      <div className="fixed inset-x-0 top-0 z-[70] flex h-8 items-center justify-center gap-2 bg-foreground px-4 text-center text-xs font-medium text-background">
-        <AlertCircle size={13} className="shrink-0 text-wheat" />
-        <span className="truncate">This is a demo. All data is simulated and not real.</span>
+      <div
+        role="note"
+        className="fixed inset-x-0 top-0 z-[70] flex h-10 items-center justify-center gap-2.5 bg-primary px-4 text-center text-sm font-semibold text-primary-foreground shadow-md"
+      >
+        <span className="shrink-0 rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-bold tracking-wide uppercase">Demo</span>
+        <span className="truncate">
+          <span className="hidden sm:inline">This is a demo. </span>All data is simulated and not real.
+        </span>
       </div>
-      <header className="sticky top-8 z-30 border-b border-border bg-background/85 backdrop-blur-md">
+      <header className="sticky top-10 z-30 border-b border-border bg-background/85 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-[1280px] items-center gap-3 px-4 md:px-8 xl:gap-5 2xl:gap-8">
           <a href="#/" className="flex items-center gap-2">
             <BreadLogo size={28} />
