@@ -26,7 +26,7 @@ export function Cover({
   className?: string
 }) {
   if (image) {
-    return <img src={image} alt="" className={cn("h-full w-full object-cover", className)} />
+    return <img src={image} alt="" loading="lazy" decoding="async" className={cn("h-full w-full object-cover", className)} />
   }
   const r = rng(seed * 9973 + 17)
   const pal = PALETTES[seed % PALETTES.length]

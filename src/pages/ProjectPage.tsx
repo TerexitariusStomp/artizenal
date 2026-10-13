@@ -61,6 +61,18 @@ export function ProjectPage({ id }: { id: string }) {
             <Cover seed={project.coverSeed} image={project.image} />
             {project.artizen && <ArtizenBadge season={project.artizen.season} className="absolute top-4 left-4 px-3 py-1 text-xs" />}
           </div>
+          {project.photo && (
+            <div className="mt-2 text-right text-[11px] text-muted-foreground">
+              Photo:{" "}
+              <a href={project.photo.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                {project.photo.title}
+              </a>{" "}
+              by {project.photo.by},{" "}
+              <a href={project.photo.licenseUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                {project.photo.license}
+              </a>
+            </div>
+          )}
           <div className="mt-7 flex items-center gap-2">
             <Badge tone="outline">{project.category}</Badge>
             {project.artizen && (

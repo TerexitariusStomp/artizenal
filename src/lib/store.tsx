@@ -3,7 +3,7 @@ import type { ReactNode } from "react"
 import { ASSETS, ASSET_IDS, DONATION_FEE, fmtUnits, money, setDisplayCurrency, toUsd, zero } from "./assets"
 import type { Asset } from "./assets"
 import { campaignContributions, computeMatches, campaignMatches } from "./matching"
-import { MIN_FUND_PLEDGE, PROJECT_DEPOSIT, PROPOSE_MIN_POINTS, STATE_VERSION, buildSeed, rng } from "./seed"
+import { MIN_FUND_PLEDGE, PROJECT_DEPOSIT, PROPOSE_MIN_POINTS, STATE_VERSION, buildSeed, rng, withPhoto } from "./seed"
 import type {
   Campaign,
   Category,
@@ -352,8 +352,8 @@ function createSampleProject(s: State, firstName: string) {
   if (s.projects.some((p) => p.creatorId === ME)) return
   const live = s.campaigns.filter((c) => campaignStatus(c, s.day) === "live")
   const round = live.find((c) => c.id === "lifeboat") ?? live[0]
-  const id = "my-darkroom"
-  s.projects.unshift({
+  const id = "my-darkroom" // matches its bundled photo in photos.ts
+  s.projects.unshift(withPhoto({
     id,
     title: `${firstName}'s Community Darkroom`,
     tagline: "A shared darkroom where anyone can learn film photography.",
@@ -369,7 +369,7 @@ function createSampleProject(s: State, firstName: string) {
     goal: 3000,
     updates: [],
     sample: true,
-  })
+  }))
   if (round && !round.projectIds.includes(id)) round.projectIds.push(id)
   const r = rng(s.day * 97 + 13)
   const others = s.users.filter((u) => u.id !== ME)

@@ -1,6 +1,7 @@
 import { ASSETS, ASSET_IDS, zero } from "./assets"
 import type { Asset } from "./assets"
 import { campaignContributions, computeMatches } from "./matching"
+import { PHOTOS } from "./photos"
 import type {
   Activity,
   Campaign,
@@ -14,7 +15,7 @@ import type {
   User,
 } from "./types"
 
-export const STATE_VERSION = 11
+export const STATE_VERSION = 12
 export const PROJECT_DEPOSIT = 25
 export const PROPOSE_MIN_POINTS = 1000
 /** A proposed fund must raise at least this much matching money (in dollars) before it can launch. */
@@ -515,6 +516,14 @@ function buildDonations(r: () => number, everyone: User[]): Donation[] {
   return out.sort((a, b) => a.day - b.day)
 }
 
+/** Use the bundled stock photo for a project, if there is one. */
+export function withPhoto(p: Project): Project {
+  const ph = PHOTOS[p.id]
+  if (!ph) return p
+  const { src, ...credit } = ph
+  return { ...p, image: src, photo: credit }
+}
+
 export function buildSeed(): State {
   const r = rng(42)
   const members = crowd(rng(7))
@@ -622,7 +631,7 @@ export function buildSeed(): State {
       holdingCarry: 0,
     },
     users: everyone.map((u) => ({ ...u })),
-    projects: projects.map((p) => ({ ...p })),
+    projects: projects.map((p) => withPhoto({ ...p })),
     funds: funds.map((f) => ({ ...f })),
     campaigns: settledCampaigns,
     donations,

@@ -42,7 +42,8 @@ export interface Project {
   creatorId: string
   location: string
   website?: string
-  image?: string // data URL for uploaded cover
+  image?: string // data URL for uploaded cover, or a bundled stock photo path
+  photo?: { title: string; by: string; license: string; licenseUrl: string; url: string }
   coverSeed: number
   artizen?: { season: string; url?: string }
   deposit: { amount: number; status: DepositStatus }

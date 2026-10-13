@@ -43,3 +43,24 @@ cd worker
 npx wrangler deploy
 npx wrangler secret put PARAGRAPH_API_KEY
 ```
+
+## Photo credits
+
+Project photos are openly licensed images found through [Openverse](https://openverse.org), cropped and resized. Photos under CC BY-SA are shared under the same license.
+
+- `tidepool-atlas`: [Yaquina Head Lighthouse, Outstanding Natural Area -- tide pool](https://www.flickr.com/photos/50169152@N06/17338426979) by BLM Oregon & Washington, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- `seed-library-van`: [Seed Library Tomatoes](https://www.flickr.com/photos/26204872@N08/21355222542) by San José Public Library, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
+- `riso-commons`: [orange risograph drum](https://www.flickr.com/photos/36662126@N05/3934857148) by The Incidental, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- `night-choir`: [Street at Night](https://www.flickr.com/photos/72396314@N00/299419187) by OiMax, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- `repair-kits`: [October 20th, 2013 Reading Repair Cafe - tool and knife sharpening table](https://www.flickr.com/photos/11569642@N00/10403675514) by karenblakeman, [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+- `mycelium-bricks`: [Oyster mushroom (Pleurotus ostreatus) mycelium in petri dish on coffee grounds](https://commons.wikimedia.org/w/index.php?curid=18340817) by Tobi Kellner, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+- `oral-histories`: [Oral History Interview](https://www.flickr.com/photos/34827922@N04/5211054924) by niallmcnulty, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- `air-monitors`: [Dylos DC1100 Pro Air Quality Monitor](https://www.flickr.com/photos/62747032@N00/4276351575) by mangtronix, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
+- `accessible-synth`: [Synthesizer Controls](https://www.flickr.com/photos/34888294@N02/9114252490) by natetherobot, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
+- `kitchen-cookbook`: [Chopped Minestrone Vegetables](https://www.flickr.com/photos/8071171@N06/4153642440) by kaktuslampan, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
+- `solar-toolkit`: [Solar Panel install](https://www.flickr.com/photos/99247795@N00/540944183) by Richard Masoner / Cyclelicious, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
+- `lullabies`: [Sleeping Baby](https://www.flickr.com/photos/7378221@N03/464518806) by ECohen, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
+- `bird-count`: [Birdwatching at Wildwood Recreation Site, Welches - horizontal - 285](https://www.flickr.com/photos/48091087@N02/8426485913) by Mt. Hood Territory, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- `feminist-econ`: [On a pink, green, and white cloud, two young women reading a book at Greenlake, wearing a daisy chain in a field of flowers, Seattle, Washington, USA](https://www.flickr.com/photos/71401718@N00/4362030060) by Wonderlane, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- `mural-walls`: [Pixel Pancho, 2013](https://www.flickr.com/photos/85264217@N04/9309444408) by Retis, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- `my-darkroom`: [Darkroom mock-up](https://www.flickr.com/photos/77742560@N06/12255568833) by shankar s., [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
