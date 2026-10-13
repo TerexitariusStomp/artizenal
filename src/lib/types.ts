@@ -77,6 +77,8 @@ export interface Fund {
   pledgeGoal: number // proposed funds: pasUSD needed to launch
   backingGoal: number // proposed funds: points needed to launch
   coverSeed: number
+  image?: string // bundled stock photo path
+  photo?: { title: string; by: string; license: string; licenseUrl: string; url: string }
   createdDay: number
 }
 

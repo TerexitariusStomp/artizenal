@@ -414,7 +414,7 @@ export function FundPage({ id, query }: { id: string; query: URLSearchParams }) 
 
       <div className="relative overflow-hidden rounded-3xl">
         <div className="absolute inset-0">
-          <Cover seed={fund.coverSeed} />
+          <Cover seed={fund.coverSeed} image={fund.image} />
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/70 to-foreground/20" />
         <div className="relative flex flex-col items-start gap-6 p-6 text-background md:flex-row md:items-end md:justify-between md:gap-10 md:p-10">
@@ -445,6 +445,18 @@ export function FundPage({ id, query }: { id: string; query: URLSearchParams }) 
           </div>
         </div>
       </div>
+      {fund.photo && (
+        <div className="mt-2 text-right text-[11px] text-muted-foreground">
+          Photo:{" "}
+          <a href={fund.photo.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+            {fund.photo.title}
+          </a>{" "}
+          by {fund.photo.by},{" "}
+          <a href={fund.photo.licenseUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+            {fund.photo.license}
+          </a>
+        </div>
+      )}
 
       {fund.status === "active" ? (
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">

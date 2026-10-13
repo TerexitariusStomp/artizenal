@@ -42,7 +42,7 @@ export function Allocate() {
       <div key={fid} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-3 px-4 py-4 md:grid-cols-[minmax(0,1.4fr)_120px_auto_130px] md:gap-5 md:px-5">
         <a href={`#/f/${fid}`} className="flex min-w-0 items-center gap-3">
           <div className="relative h-11 w-14 shrink-0 overflow-hidden rounded-lg">
-            <Cover seed={f.coverSeed} />
+            <Cover seed={f.coverSeed} image={f.image} />
             {isActive && <span className="absolute top-1 left-1 h-2.5 w-2.5 rounded-full ring-2 ring-card" style={{ background: colorOf(fid) }} />}
           </div>
           <div className="min-w-0">

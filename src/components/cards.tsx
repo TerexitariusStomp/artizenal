@@ -100,7 +100,7 @@ export function FundCard({ fund }: { fund: Fund }) {
     <a href={`#/f/${fund.id}`} className="group block">
       <Card className="h-full overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lg">
         <div className="relative h-28 overflow-hidden">
-          <Cover seed={fund.coverSeed} />
+          <Cover seed={fund.coverSeed} image={fund.image} />
           <div className="absolute inset-x-3 bottom-3 flex items-center gap-1.5">
             <MechanismBadge m={fund.mechanism} />
             {fund.status === "proposed" ? (
@@ -169,7 +169,7 @@ export function CampaignRow({ campaign }: { campaign: Campaign }) {
     <a href={`#/f/${fund.id}?c=${campaign.id}`} className="block">
       <Card className="flex items-center gap-4 p-3 pr-5 transition hover:shadow-md">
         <div className="h-16 w-24 shrink-0 overflow-hidden rounded-xl">
-          <Cover seed={fund.coverSeed} />
+          <Cover seed={fund.coverSeed} image={fund.image} />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
