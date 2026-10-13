@@ -34,11 +34,13 @@ import {
   getProject,
   getUser,
   useStore,
+  curatorEarned,
+  giftUnits,
 } from "@/lib/store"
 import { MECHANISM_INFO, campaignContributions, campaignMatches, mechanismLabel } from "@/lib/matching"
 import type { Campaign, Fund } from "@/lib/types"
 import { cn, dayLabel, num, usd } from "@/lib/utils"
-import { ASSETS, fmtUnits } from "@/lib/assets"
+import { ASSETS, CURATOR_SHARE, fmtUnits, toUsd } from "@/lib/assets"
 
 function GivePoints({ fund }: { fund: Fund }) {
   const { state, actions, toast } = useStore()
@@ -285,21 +287,22 @@ function CampaignPanel({ campaign, fund }: { campaign: Campaign; fund: Fund }) {
 function Supporters({ fund, onGive }: { fund: Fund; onGive: () => void }) {
   const { state } = useStore()
   const gifts = fundSupporters(state, fund.id)
-  const total = gifts.reduce((t, g) => t + g.amount, 0)
+  const total = gifts.reduce((t, g) => t + toUsd(g.asset, giftUnits(g)), 0)
+  const earned = curatorEarned(state, fund.id)
 
   // Sponsors: named givers ranked by total given, with their latest note and link.
   const byUser = new Map<string, { total: number; message?: string; link?: string; day: number }>()
   for (const g of [...gifts].reverse()) {
     if (g.anonymous) continue
     const e = byUser.get(g.from) ?? { total: 0, day: 0 }
-    e.total += g.amount
+    e.total += toUsd(g.asset, giftUnits(g))
     if (g.message) e.message = g.message
     if (g.link) e.link = g.link
     e.day = g.day
     byUser.set(g.from, e)
   }
   const sponsors = [...byUser.entries()].sort((a, b) => b[1].total - a[1].total).slice(0, 3)
-  const anonTotal = gifts.filter((g) => g.anonymous).reduce((t, g) => t + g.amount, 0)
+  const anonTotal = gifts.filter((g) => g.anonymous).reduce((t, g) => t + toUsd(g.asset, giftUnits(g)), 0)
 
   return (
     <section className="mt-12">
@@ -309,6 +312,10 @@ function Supporters({ fund, onGive }: { fund: Fund; onGive: () => void }) {
           <p className="mt-1 text-sm text-muted-foreground">
             {gifts.length ? `${usd(total)} given directly by ${new Set(gifts.map((g) => g.from)).size} people` : "No direct gifts yet."}
             {anonTotal > 0 && `, including ${usd(anonTotal)} anonymously`}
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Curators get {Math.round(CURATOR_SHARE * 100)}% of each gift for running the fund
+            {earned > 0 && <>, {usd(earned)} so far</>}.
           </p>
         </div>
         <Button variant="outline" onClick={onGive}>
@@ -364,7 +371,7 @@ function Supporters({ fund, onGive }: { fund: Fund; onGive: () => void }) {
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                     <span className="font-semibold">{g.anonymous ? "Anonymous" : g.from === ME ? "You" : u?.name}</span>
                     <span className="tabular-nums">
-                      {fmtUnits(g.asset, g.units)} {ASSETS[g.asset].token}
+                      {fmtUnits(g.asset, giftUnits(g))} {ASSETS[g.asset].token}
                       <span className="ml-2 text-xs text-muted-foreground">{dayLabel(g.day, state.day)}</span>
                     </span>
                   </div>

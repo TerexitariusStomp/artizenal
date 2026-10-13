@@ -192,7 +192,7 @@ export function ProposeFund() {
             <div className="flex items-center gap-2 font-semibold text-coop-ink">
               <Sparkles size={15} /> +{num(POINT_RULES.proposeFund + pledgeUsd * POINT_RULES.perFundBread)} points
             </div>
-            <div className="mt-1 text-muted-foreground">for proposing and pledging. You'll be the fund's first curator.</div>
+            <div className="mt-1 text-muted-foreground">for proposing and pledging. You'll be the fund's first curator and get 20% of every gift to it.</div>
             <Button size="lg" className="mt-4 w-full" disabled={!name.trim() || !tagline.trim() || pledgeGoal < MIN_FUND_PLEDGE || initialPledge > state.me.art[pledgeAsset] + 1e-9} onClick={submit}>
               Propose fund
             </Button>

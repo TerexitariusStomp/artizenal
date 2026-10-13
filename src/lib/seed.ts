@@ -1,4 +1,4 @@
-import { ASSETS, ASSET_IDS, zero } from "./assets"
+import { ASSETS, ASSET_IDS, CURATOR_SHARE, DONATION_FEE, zero } from "./assets"
 import type { Asset } from "./assets"
 import { campaignContributions, computeMatches } from "./matching"
 import { FUND_PHOTOS, PHOTOS } from "./photos"
@@ -15,7 +15,7 @@ import type {
   User,
 } from "./types"
 
-export const STATE_VERSION = 13
+export const STATE_VERSION = 14
 export const PROJECT_DEPOSIT = 25
 export const PROPOSE_MIN_POINTS = 1000
 /** A proposed fund must raise at least this much matching money (in dollars) before it can launch. */
@@ -589,7 +589,7 @@ export function buildSeed(): State {
     { id: "a7", day: 30, userId: "noor", text: "launched Lifeboat Round in Artizen Rescue Fund", href: "#/f/artizen-rescue" },
   ]
 
-  const fundDonations = [
+  const fundGifts = [
     { id: "fd1", from: "oli", fundId: "food-sovereignty", amount: 600, asset: "USD" as const, units: 600, day: 35 },
     { id: "fd2", from: "priya", fundId: "food-sovereignty", amount: 250, asset: "USD" as const, units: 250, day: 34 },
     { id: "fd3", from: "ines", fundId: "food-sovereignty", amount: 150, asset: "USD" as const, units: 150, day: 36 },
@@ -604,6 +604,17 @@ export function buildSeed(): State {
     { id: "fd12", from: "maya", fundId: "small-press", amount: 250, asset: "USD" as const, units: 250, day: 38, message: "Riso Commons prints at cost for every project in the Spring Zine Drive." },
     { id: "fd13", from: "theo", fundId: "community-science", amount: 0.1 * ASSETS.ETH.usd, asset: "ETH" as const, units: 0.1, day: 40, message: "Tidepool Atlas volunteers say thanks." },
   ]
+
+  // Each gift sends 10% to the Wealth Fund and 20% to the fund's curators, unless a curator gave it.
+  const feeUnits = zero()
+  const fundDonations = fundGifts.map((g) => {
+    const curators = funds.find((f) => f.id === g.fundId)!.curators
+    const fee = g.units * DONATION_FEE
+    const cut = curators.includes(g.from) ? 0 : g.units * CURATOR_SHARE
+    feeUnits[g.asset] += fee
+    const units = g.units - fee - cut
+    return { ...g, units, amount: units * ASSETS[g.asset].usd, fee, curatorCut: cut || undefined }
+  })
 
   // Pas tokens other members hold, and permanent endowments, in units of each asset.
   const supply: Record<Asset, number> = { USD: 1_650_000, EUR: 420_000, ETH: 95 }
@@ -627,7 +638,7 @@ export function buildSeed(): State {
     seasonLength: 30,
     supply,
     endowed,
-    feeUnits: zero(),
+    feeUnits,
     yieldPool: perDay * (SEED_DAY - 30),
     yieldLifetime: perDay * SEED_DAY,
     me: {

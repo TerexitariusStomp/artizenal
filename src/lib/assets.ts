@@ -15,6 +15,9 @@ export const ASSETS: Record<
 /** Share of every donation that goes into the Wealth Fund for good. */
 export const DONATION_FEE = 0.1
 
+/** Share of a direct gift to a fund that goes to its curators, split evenly. */
+export const CURATOR_SHARE = 0.2
+
 export const toUsd = (asset: Asset, units: number) => units * ASSETS[asset].usd
 
 export function fmtUnits(asset: Asset, units: number) {

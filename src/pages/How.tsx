@@ -22,6 +22,10 @@ const QA: { q: string; a: string }[] = [
     a: "10% of every donation goes into the Pastry Wealth Fund for good. It keeps earning yield, so every gift grows the matching for everyone.",
   },
   {
+    q: "Do curators get paid?",
+    a: "Yes. A fund's curators get 20% of every direct gift to the fund, split between them, for running its rounds. Gifts from the curators themselves are not split.",
+  },
+  {
     q: "What does endowing mean?",
     a: `Giving USDC, EURC or ETH to the Wealth Fund for good. It earns yield for matching forever, and you get ${POINT_RULES.perEndowedUsd} points per $1 to steer it.`,
   },

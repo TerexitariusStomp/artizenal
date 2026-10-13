@@ -8,7 +8,7 @@ import { basketMatch, marginalMatch, MECHANISM_INFO } from "@/lib/matching"
 import type { Fund, Project } from "@/lib/types"
 import { cn, num, usd } from "@/lib/utils"
 import { isSubscribed, subscribe } from "@/lib/signup"
-import { ASSETS, ASSET_IDS, DONATION_FEE, fmtUnits, toUsd } from "@/lib/assets"
+import { ASSETS, ASSET_IDS, CURATOR_SHARE, DONATION_FEE, fmtUnits, toUsd } from "@/lib/assets"
 import type { Asset } from "@/lib/assets"
 
 /** Inline helper shown when the user doesn't hold enough of a pas token. */
@@ -272,6 +272,7 @@ export function FundDonateModal({ fund, open, onClose }: { fund: Fund; open: boo
   const [link, setLink] = useState("")
   const [anonymous, setAnonymous] = useState(false)
   const proposed = fund.status === "proposed"
+  const cut = fund.curators.includes(ME) ? 0 : CURATOR_SHARE
   const A = ASSETS[asset]
   const value = toUsd(asset, units)
   const points = Math.round(value * POINT_RULES.perFundBread)
@@ -316,17 +317,31 @@ export function FundDonateModal({ fund, open, onClose }: { fund: Fund; open: boo
             ≈ {usd(value)} · Balance {fmtUnits(asset, state.me.art[asset])} {A.token}
           </div>
         </div>
-        <div className="flex items-center justify-between rounded-xl bg-muted px-4 py-2.5 text-xs text-muted-foreground">
+        <div className="space-y-1 rounded-xl bg-muted px-4 py-2.5 text-xs text-muted-foreground">
+          <div className="flex justify-between gap-3">
+            <span>The fund gets</span>
+            <b className="tabular-nums text-foreground">
+              {fmtUnits(asset, units * (1 - DONATION_FEE - cut))} {A.token}
+            </b>
+          </div>
+          {cut > 0 && (
+            <div className="flex justify-between gap-3">
+              <span>
+                {Math.round(cut * 100)}% to {fund.curators.length > 1 ? "the curators" : "the curator"}
+              </span>
+              <span className="tabular-nums">{fmtUnits(asset, units * cut)}</span>
+            </div>
+          )}
+          <div className="flex justify-between gap-3">
             <span>
-              The fund gets <b className="text-foreground">{fmtUnits(asset, units * (1 - DONATION_FEE))} {A.token}</b>
-            </span>
-            <span>
-              {Math.round(DONATION_FEE * 100)}% ({fmtUnits(asset, units * DONATION_FEE)}) to the{" "}
+              {Math.round(DONATION_FEE * 100)}% to the{" "}
               <a href="#/wealth" className="font-semibold text-crust hover:underline">
                 Wealth Fund
               </a>
             </span>
+            <span className="tabular-nums">{fmtUnits(asset, units * DONATION_FEE)}</span>
           </div>
+        </div>
         {!proposed && (
           <Field label="To">
             <Select value={target} onChange={(e) => setTarget(e.target.value)}>

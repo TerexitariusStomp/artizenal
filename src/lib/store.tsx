@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import type { ReactNode } from "react"
-import { ASSETS, ASSET_IDS, DONATION_FEE, fmtUnits, money, setDisplayCurrency, toUsd, zero } from "./assets"
+import { ASSETS, ASSET_IDS, CURATOR_SHARE, DONATION_FEE, fmtUnits, money, setDisplayCurrency, toUsd, zero } from "./assets"
 import type { Asset } from "./assets"
 import { campaignContributions, computeMatches, campaignMatches } from "./matching"
 import { MIN_FUND_PLEDGE, PROJECT_DEPOSIT, PROPOSE_MIN_POINTS, STATE_VERSION, buildSeed, rng, withPhoto } from "./seed"
@@ -8,6 +8,7 @@ import type {
   Campaign,
   Category,
   Fund,
+  FundDonation,
   Mechanism,
   PointsReason,
   Project,
@@ -164,6 +165,16 @@ export function projectEarnings(s: State, pid: string) {
 
 export function myProject(s: State) {
   return s.projects.find((p) => p.creatorId === ME)
+}
+
+/** Units the giver sent, before the Wealth Fund fee and curator share. */
+export function giftUnits(g: FundDonation) {
+  return g.units + (g.fee ?? 0) + (g.curatorCut ?? 0)
+}
+
+/** Dollars a fund's curators have received from direct gifts. */
+export function curatorEarned(s: State, fundId: string) {
+  return s.fundDonations.filter((d) => d.fundId === fundId).reduce((t, d) => t + toUsd(d.asset, d.curatorCut ?? 0), 0)
 }
 
 /** Direct gifts to a fund, newest first. */
@@ -620,7 +631,9 @@ function useStoreValue() {
           const f = getFund(s, fundId)!
           const fee = units * DONATION_FEE
           s.feeUnits[asset] += fee
-          const amount = toUsd(asset, units - fee)
+          // Curators get a share of gifts from anyone but themselves.
+          const cut = f.curators.includes(ME) ? 0 : units * CURATOR_SHARE
+          const amount = toUsd(asset, units - fee - cut)
           s.me.art[asset] -= units
           s.fundDonations.push({
             id: uid("fd"),
@@ -629,8 +642,9 @@ function useStoreValue() {
             campaignId,
             amount,
             asset,
-            units: units - fee,
+            units: units - fee - cut,
             fee,
+            curatorCut: cut || undefined,
             message: note.message?.trim().slice(0, 280) || undefined,
             link: cleanLink(note.link),
             anonymous: note.anonymous || undefined,

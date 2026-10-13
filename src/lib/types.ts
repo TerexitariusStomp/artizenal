@@ -125,6 +125,7 @@ export interface FundDonation {
   asset: Asset
   units: number
   fee?: number
+  curatorCut?: number // units paid to the fund's curators
   message?: string
   link?: string
   anonymous?: boolean
